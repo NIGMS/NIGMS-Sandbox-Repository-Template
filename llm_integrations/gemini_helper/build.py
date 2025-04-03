@@ -56,7 +56,7 @@ def enable_apis_for_project(project_id):
     # Loop through each API and try to enable it
     for ser in api_names:
         success = False
-        retries = 3
+        retries = 0
         
         while not success and retries < max_retries:
             print(f"Enabling API: {ser}")
