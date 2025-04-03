@@ -10,4 +10,5 @@ setup(
         'google-auth',  # Example, replace with actual dependencies
         'google-api-python-client'
     ],
+    py_modules=['gemini_helper']
 )
