@@ -3,9 +3,6 @@ from google.cloud import api_keys_v2 as keyapi
 from google.auth import default
 from googleapiclient.discovery import build
 import os
-import subprocess
-
-result = subprocess.run(['pip', 'install', 'google-cloud-api-keys', 'google-auth', 'google-api-python-client'], check=True)
 
 def create_api_key(project_id):
     client = keyapi.ApiKeysClient()    
