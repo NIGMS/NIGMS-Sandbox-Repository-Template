@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='build',  # The name of your package
+    name='gemini_helper',  # The name of your package
     version='0.1',
     packages=find_packages(),  # This will find llm_integrations
     install_requires=[
