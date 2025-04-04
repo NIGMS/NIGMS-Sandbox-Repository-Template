@@ -16,6 +16,7 @@ def create_api_key(project_id):
     keyname = "GeminiKey"
     key_info = keyapi.Key(
         display_name=keyname,
+        restrictions = restrictions
     )
 
     # Initialize request argument(s)
@@ -24,18 +25,10 @@ def create_api_key(project_id):
         key=key_info
     )
     operation = client.create_key(request=request)
-    print("Creating key...")
+    print("Creating Restricted key...")
 
     response = operation.result()
-    print(response)
-    key = keyapi.Key()
-    key.name = f"projects/{project_id}/locations/global/keys/{response.uid}"
-    key.restrictions = restrictions
-    update_req = keyapi.UpdateKeyRequest()
-    update_req.key = key
-    update_req.update_mask ="restrictions"
-    print("Applying Restrictions...")
-    update_resp = client.update_key(request=update_req).result()
+
     return response.key_string
 
 def enable_apis_for_project(project_id):
@@ -53,7 +46,6 @@ def enable_apis_for_project(project_id):
     max_retries = 3
     all_success = True  # Track if all APIs are enabled successfully
     
-    # Loop through each API and try to enable it
     for ser in api_names:
         success = False
         retries = 0
@@ -61,7 +53,6 @@ def enable_apis_for_project(project_id):
         while not success and retries < max_retries:
             print(f"Enabling API: {ser}")
             try:
-                # Request to enable the API
                 request = service.services().enable(
                     name=f'projects/{project_id}/services/{ser}'
                 )
@@ -81,7 +72,6 @@ def enable_apis_for_project(project_id):
     
     print(f"Enabled {len(enabled_services)} APIs successfully.")
     
-    # Return the overall success boolean
     return all_success
 
 def get_api_key():
