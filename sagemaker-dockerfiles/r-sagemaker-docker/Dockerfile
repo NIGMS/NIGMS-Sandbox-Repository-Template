@@ -41,6 +41,7 @@ RUN apt-get install --yes --no-install-recommends \
     libpng-dev \
     libtiff5-dev  \
     libjpeg-dev \
+    libopenblas-dev \
     libmagick++-dev \
     sudo \
     libcairo2-dev -y && \
@@ -63,14 +64,15 @@ COPY add_r_kernel.sh /
 
 RUN chmod +x /add_r_kernel.sh && \
     /add_r_kernel.sh && \
-    chown ${NB_UID}:${NB_GID} /usr/local/lib/R -R
+    chown ${NB_UID}:${NB_GID} /usr/local/lib/R -R && \
+    chown ${NB_UID}:${NB_GID} /usr/lib/R -R
 
 RUN usermod -a -G  sudo ${NB_USER} && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 WORKDIR $HOME
 USER ${NB_UID}
 
-
+RUN echo "test"
 CMD jupyter lab --ip 0.0.0.0 --port 8888 \
   --ServerApp.base_url="/jupyterlab/default" \
   --ServerApp.token='' \

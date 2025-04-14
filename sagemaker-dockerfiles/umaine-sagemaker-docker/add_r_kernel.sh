@@ -55,3 +55,5 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 devtools::install_github("lusystemsbio/NetAct", dependencies = TRUE, build_vignettes = FALSE)
 devtools::install_github("immunogenomics/presto")
 
+devtools::install_github("IRkernel/IRkernel")
+IRkernel::installspec(user = FALSE)

@@ -15,11 +15,14 @@ RUN useradd --non-unique --create-home --shell /bin/bash --gid "${NB_GID}" --uid
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     fonts-dejavu \
+    sudo \
     unzip \
+    libgl1-mesa-glx \
+    xvfb \
     gcc && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN python3 -m pip install jupyterlab && python3 -m pip install --upgrade pip &&  python3 -m pip install --upgrade urllib3==1.26.6
+RUN python3 -m pip install jupyterlab urllib3==1.26.6 PyQt5 ete3
     
 RUN conda config --add channels conda-forge --add channels bioconda
 RUN conda update --all --override-channels -c conda-forge --yes
@@ -40,7 +43,8 @@ RUN mamba install --quiet --yes -c conda-forge \
 
 RUN mamba install --quiet --yes usher && conda install mamba -y
 RUN mamba clean --all -f -y  && chown ${NB_UID} /opt/conda -R
-
+RUN usermod -a -G  sudo ${NB_USER} && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+    chmod 777 /opt/conda -R
 
 WORKDIR $HOME
 USER ${NB_UID}
