@@ -32,6 +32,7 @@ if is_gcp():
         'google-cloud-api-keys',
         'google-auth',
         'google-api-python-client',
+        'google-generativeai'
     ]
 else:
     install_requires += [
